@@ -1,48 +1,75 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [people, setPeople] = useState([]);
 
-  const empleados = [{ nombre: "Juan", edad: 25, salario: 1800 },
-    { nombre: "Ana", edad: 30, salario: 2200 },
-    { nombre: "Luis", edad: 28, salario: 2500 }]
+  async function fetchTenRandomPeople() {
+    const url = "https://randomuser.me/api/?results=10";
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
 
-  function filtrarOrdenar() {
-    return empleados.filter((empleado) => empleado["salario"] > 2000).sort((a, b) => a["edad"] - b["edad"])
+      const json = await response.json();
+      const convertedResults = json["results"].map((item) => {
+        return {
+          name:
+            item["name"]["title"] +
+            " " +
+            item["name"]["first"] +
+            " " +
+            item["name"]["last"],
+          gender: item["gender"],
+          ubication:
+            item["location"]["city"] + " - " + item["location"]["country"],
+          email: item["email"],
+          birth_date: new Date(item["dob"]["date"]).toISOString().split("T")[0],
+          photo: item["picture"]["large"],
+        };
+      });
+      setPeople(convertedResults);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   useEffect(() => {
-    console.log(filtrarOrdenar())
-  }, [])
-  
+    fetchTenRandomPeople();
+  }, []);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>Reto Técnico 20-02-25</h1>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Género</th>
+            <th>Ubicación</th>
+            <th>Email</th>
+            <th>Fecha de nacimiento</th>
+            <th>Foto</th>
+          </tr>
+        </thead>
+        <tbody>
+          {people.map((person) => (
+            <tr key={person["name"]}>
+              <td>{person["name"]}</td>
+              <td>{person["gender"]}</td>
+              <td>{person["ubication"]}</td>
+              <td>{person["email"]}</td>
+              <td>{person["birth_date"]}</td>
+              <td>
+                <img src={person["photo"]} alt={person["name"]} width={320} height={320}></img>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

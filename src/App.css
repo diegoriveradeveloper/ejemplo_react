@@ -42,5 +42,31 @@
 }
 
 img {
+  max-width: 240px;
+  max-height: 240px;
   border-radius: 1.8rem;
+}
+
+.lg_title {
+  font-size: 2rem;
+  font-weight: thin;
+  margin-bottom: 1.8rem;
+}
+
+.table-styled {
+  border-top: thick solid gainsboro;
+}
+
+th, tr, td {
+  padding: .5rem;
+}
+
+tbody > tr:nth-of-type(odd) {
+  color: black;
+  background-color: gainsboro;
+}
+
+tbody > tr:nth-of-type(even) {
+  color: white;
+  background-color: gray;
 }

@@ -41,8 +41,8 @@ function App() {
 
   return (
     <>
-      <h1>Reto Técnico 20-02-25</h1>
-      <table className="table table-striped">
+      <h1 className="lg-title">Reto Técnico Frontend 20-02-25</h1>
+      <table className="table-styled">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -50,7 +50,7 @@ function App() {
             <th>Ubicación</th>
             <th>Email</th>
             <th>Fecha de nacimiento</th>
-            <th>Foto</th>
+            <th>Fotografía</th>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@ function App() {
               <td>{person["email"]}</td>
               <td>{person["birth_date"]}</td>
               <td>
-                <img src={person["photo"]} alt={person["name"]} width={320} height={320}></img>
+                <img src={person["photo"]} alt={person["name"]}></img>
               </td>
             </tr>
           ))}
